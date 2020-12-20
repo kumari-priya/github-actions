@@ -9,10 +9,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: zabbix/zabbix-docker
-          ref: 5.0
+          ref: '5.0'
           path: ./zabbix-docker
       - run: |
           docker --version
           docker-compose --version
+          ls -la
           docker-compose -f ./zabbix-docker/docker-compose_v3_alpine_pgsql_latest.yaml up -d
           docker-compose -f ./zabbix-docker/docker-compose_v3_alpine_pgsql_latest.yaml ps
