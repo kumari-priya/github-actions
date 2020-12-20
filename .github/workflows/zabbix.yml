@@ -1,19 +1,31 @@
 name: Setup Zabbix Instance
+
 on: push
+
 jobs:
   zabbix:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        zabbix-version: ['5.2', '5.0', '4.0', '3.0']
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/checkout@v2
+      - name: Checkout repo kumari-priya/github-actions
+        uses: actions/checkout@v2
+
+      - name: Checkout repo zabbix/zabbix-docker
+        uses: actions/checkout@v2
         with:
           repository: zabbix/zabbix-docker
-          ref: '5.0'
+          ref: ${{ matrix.zabbix-version }}
           path: ./zabbix-docker
-      - run: |
+
+      - name: Build Zabbix Containers
+        run: |
           docker --version
           docker-compose --version
           ls -la
           docker-compose -f ./zabbix-docker/docker-compose_v3_alpine_pgsql_latest.yaml up -d
+          sleep 10
           docker-compose -f ./zabbix-docker/docker-compose_v3_alpine_pgsql_latest.yaml ps
