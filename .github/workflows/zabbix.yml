@@ -6,10 +6,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: github/super-linter@latest
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+        with:
+          repository: zabbix/zabbix-docker
+          ref: 5.2
+          path: ./zabbix-docker
       - run: |
           docker --version
           docker-compose --version
+          docker-compose -f ./zabbix-docker/docker-compose_v3_alpine_pgsql_latest.yaml up
+          docker-compose -f ./zabbix-docker/docker-compose_v3_alpine_pgsql_latest.yaml ps
