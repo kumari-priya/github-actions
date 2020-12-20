@@ -25,10 +25,17 @@ jobs:
         run: |
           docker --version
           docker-compose --version
-          deno --version
           ls -la
           git -C ./zabbix-docker branch
           docker-compose -f ./zabbix-docker/docker-compose_v3_alpine_pgsql_latest.yaml up -d
           sleep 10
           docker-compose -f ./zabbix-docker/docker-compose_v3_alpine_pgsql_latest.yaml ps
+
+      - name: Setup Deno
+        uses: denolib/setup-deno@v2
+        with:
+          deno-version: v1.x
+      - name: Run Deno
+        run: |
+          deno --version
           deno run --allow-net=127.0.0.1 getHost.ts
