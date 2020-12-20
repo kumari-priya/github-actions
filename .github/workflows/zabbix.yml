@@ -1,0 +1,15 @@
+name: Setup Zabbix Instance
+on: push
+jobs:
+  zabbix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: github/super-linter@latest
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          docker --version
+          docker-compose --version
